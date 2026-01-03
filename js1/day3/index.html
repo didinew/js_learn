@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // ✅ 任务 1：数组求和
+        // 目标：计算总和
+        const nums = [1, 2, 3, 4, 5]
+        const sum = nums.reduce((acc, cur) => {
+            return acc + cur
+        }, 0)
+        console.log(sum)
+
+        // ✅ 任务 2：数组分组计数（面试高频）
+        // 目标：
+        // { apple: 2, banana: 2, orange: 1 }
+        const fruits = ['apple', 'apple', 'banana', 'apple', 'orange', 'banana']
+
+        const result = fruits.reduce((acc, cur) => {
+            if (acc[cur]) {
+                acc[cur]++
+            } else {
+                acc[cur] = 1
+            }
+            return acc
+        }, {})
+        console.log(result)
+
+        // ✅ 任务 3：数组扁平化（实战项目常用）
+        // 目标：[1,2,3,4,5]
+        const arr = [[1, 2], [3, 4], [5]]
+        const resFlat = arr.reduce((acc, cur) => {
+            return acc.concat(cur)
+        }, [])
+        console.log(resFlat)
+
+        // ✅ 任务 4（可选加分）：构建对象
+
+        // 目标：
+        // { '1': { id:1, name:'Tom' }, '2': {...} }
+        const users = [
+            { id: 1, name: 'Tom' },
+            { id: 2, name: 'Jerry' }
+        ]
+        const resUser = users.reduce((acc, cur) => {
+            acc[cur.id] = cur
+            return acc
+        }, {})
+        console.log(resUser)
+
+    </script>
+</body>
+
+</html>

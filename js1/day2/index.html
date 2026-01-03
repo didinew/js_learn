@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // filter
+        // ✅ 任务 1：基础筛选
+
+        // 目标：筛选出大于 0 的数字
+        const nums = [10, 5, 0, 20, -1]
+        const res1 = nums.filter(item => item > 0)
+        console.log(res1)
+
+        // ✅ 任务 2：模拟列表搜索（真实业务）
+        // 目标：
+        // keyword = 'e'
+        // 筛选 name 中包含 e 的用户
+        const users = [
+            { id: 1, name: 'Tom' },
+            { id: 2, name: 'Jerry' },
+            { id: 3, name: 'Lucy' }
+        ]
+
+        const res2 = users.filter(item => item.name.includes('e'))
+        console.log(res2)
+
+        // ✅ 任务 3：状态筛选（项目级）
+        // 目标：
+// 只显示已完成的 todo
+        const todos = [
+  { title: 'JS', done: true },
+  { title: 'Vue', done: false },
+  { title: 'React', done: true }
+]
+const res3 = todos.filter(item => item.done)
+console.log(res3)
+
+    </script>
+</body>
+
+</html>
