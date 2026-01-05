@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // ✅ 任务 1：对象解构 + 默认值
+        const user = { name: 'Tom' }
+
+        // 目标：
+        const { name, age = 18 } = user
+        console.log(name, age) // ?
+
+        // ✅ 任务 2：数组解构 + 交换变量
+        // 使用解构交换 a, b
+        let a = 1, b = 2
+        [a, b] = [b, a]
+        console.log(a, b) // ?
+
+        // ✅ 任务 3：模板字符串渲染
+
+        const product = { name: 'Phone', price: 999 }
+
+        const str = `Product: ${product.name}, Price: $${product.price}`
+        console.log(str)
+
+        // ✅ 任务 4：扩展运算符实战
+        const arr1 = [1, 2]
+        const arr2 = [3, 4]
+        const merged = [...arr1, ...arr2]
+
+        const obj1 = { x: 1 }
+        const obj2 = { y: 2 }
+        const mergedObj = { ...obj1, ...obj2 }
+
+        console.log(merged, mergedObj)
+    </script>
+</body>
+
+</html>

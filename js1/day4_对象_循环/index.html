@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // ✅ 任务 1：for…of / for…in
+        const arr = [10, 20, 30]
+        for (const val of arr) console.log(val)   // 输出元素
+        for (const idx in arr) console.log(idx)   // 输出索引
+
+        // ✅ 任务 2：对象遍历
+        // // 输出 key / value / key+value
+        const user = { name: 'Lucy', age: 22, city: 'NY' }
+
+        // 输出key
+        Object.keys(user).forEach(item => console.log(item))
+
+        // value
+        Object.values(user).forEach(item => console.log(item))
+
+        // key+value
+
+        Object.entries(user).forEach(item => console.log(item))
+
+        // ✅ 任务 3：浅拷贝
+        const original = { name: 'Tom', info: { age: 18 } }
+        // const copy = { ...original }
+        // copy.info.age = 99
+        // console.log(original.info.age) // ?
+
+        // ✅ 任务 4（加分）：深拷贝
+        const deepCopy = JSON.parse(JSON.stringify(original))
+        deepCopy.info.age = 100
+        console.log(original.info.age) // ?
+        
+    </script>
+</body>
+
+</html>

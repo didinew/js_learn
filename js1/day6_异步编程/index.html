@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+//         ✅ 任务 1：顺序判断
+
+// 写出输出结果（不运行，先想）👇
+console.log('A')
+
+setTimeout(() => {
+  console.log('B')
+}, 0)
+
+Promise.resolve().then(() => {
+  console.log('C')
+})
+
+console.log('D')
+// 输出顺序：A D C B
+
+// ✅ 任务 2：Promise 改 async/await
+function fetchData() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve('data')
+    }, 1000)
+  })
+}
+
+// 用 async/await 改写并打印结果
+async function fetachDataAsync() {
+    const data = await fetchData()
+    console.log(data) // 等待 1 秒后输出 'data'
+}
+
+fetachDataAsync()
+
+// ✅ 任务 3：错误捕获（重点）
+async function test() {
+    try{
+        await Promise.reject('error')
+    } catch (error) {
+        console.log(error)
+    }
+  // 如何捕获 Promise reject？
+}
+
+    </script>
+</body>
+
+</html>
