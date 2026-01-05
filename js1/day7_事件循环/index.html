@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+console.log('A')
+
+async function fn() {
+  console.log('B')
+  await null
+  console.log('C')
+}
+
+fn()
+
+Promise.resolve().then(() => {
+  console.log('D')
+})
+
+setTimeout(() => {
+  console.log('E')
+}, 0)
+
+console.log('F')
+// 输出顺序：A B D F C E
+    </script>
+</body>
+
+</html>

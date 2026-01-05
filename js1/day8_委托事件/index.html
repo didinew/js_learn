@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul id="list">
+      <li>JS</li>
+      <li>Vue</li>
+      <li>React</li>
+    </ul>
+    <script>
+      // 委托事件
+      const list = document.getElementById('list')
+      list.addEventListener('click', (e) => {
+        console.log(e.currentTarget)
+        console.log(e.target.innerText)
+      })
+    </script>
+</body>
+
+</html>

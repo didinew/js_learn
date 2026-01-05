@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul id="list">
+     
+    </ul>
+    <div id="div" style="width: 200px;height: 300px;background-color: pink;">
+
+    </div>
+    <script>
+  //     ✅ 任务 2：批量 DOM 操作优化
+	// •	需求：生成 1000 个 li
+	// •	写出 优化前 和 优化后 代码
+      const list = document.getElementById('list')
+      // 打印时间
+      console.time('优化前')
+      for(let i = 0; i < 10000; i++) {
+
+        const li = document.createElement('li')
+        li.innerText = `item${i}`
+        list.appendChild(li)
+      }
+      // 打印时间
+      console.timeEnd('优化前')
+      // 打印时间
+      console.time('优化后')
+      const fragment = document.createDocumentFragment()
+      for(let i = 0; i < 10000; i++) {
+        const li = document.createElement('li')
+        li.innerText = `item${i}`
+        fragment.appendChild(li)
+      }
+      list.appendChild(fragment)
+      // 打印时间
+      console.timeEnd('优化后')
+  //     ✅ 任务 3：动画优化示例
+	// •	写一个 div 左右移动动画
+	// •	使用 requestAnimationFrame 替代 setInterval
+  let x = 0
+  function move() {
+    const div = document.getElementById('div')
+    x += 10
+    div.style.transform = `translateX(${x}px)`
+    if(x < 300) {
+      requestAnimationFrame(move)
+    }
+  }
+  move()
+
+    </script>
+</body>
+
+</html>
