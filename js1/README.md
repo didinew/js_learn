@@ -58,15 +58,18 @@ for...of // 遍历 iterable（数组 / Map / Set）
 
 // 解构
 
+
 ```js
 const { name, age } = user;
 ```
 
 // 默认参数
 
+
 ```js
 function fn(a = 1) {}
 ```
+
 
 // 模板字符串
 `hello ${name}`
@@ -87,13 +90,10 @@ function fn(a = 1) {}
 
 学习顺序（别反）1. setTimeout（宏任务）2. Promise.then 3. async / await 4. 事件循环（Event Loop）
 
-必懂模型（能画出来最好）
-同步代码
-↓
-微任务（Promise.then）
-↓
-宏任务（setTimeout）
-
+| 必懂模型（能画出来最好） | 同步代码 |
+| --- | --- |
+| ↓ | 微任务（Promise.then） |
+| ↓ | 宏任务（setTimeout） |
 面试送命题
 
 ❓ async/await 本质是什么？
@@ -107,16 +107,13 @@ function fn(a = 1) {}
 三个阶段 1. 捕获（capture）2. 目标（target）3. 冒泡（bubble）
 
 事件委托（重点）
-
-ul.addEventListener('click', e => {
-
 ```js
+ul.addEventListener('click', e => {
 if (e.target.tagName === "LI") {
+
 }
-```
-
 })
-
+```
 为什么用事件委托？
 
 - 减少事件绑定数量

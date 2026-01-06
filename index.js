@@ -31,23 +31,51 @@ function toHeading(line, idx) {
   return null;
 }
 
-function transformTripleColumns(lines, start) {
-  if (!lines[start] || !lines[start+1] || !lines[start+2]) return null;
-  if (lines[start].trim() !== '场景' || lines[start+1].trim() !== 'React' || lines[start+2].trim() !== 'Vue') return null;
-  const rows = [];
-  let i = start + 3;
-  while (i + 2 < lines.length) {
-    const a = lines[i].trim();
-    const b = lines[i+1].trim();
-    const c = lines[i+2].trim();
-    if (!a || !b || !c) break;
-    if (a === '⸻' || b === '⸻' || c === '⸻' || a === '---' || b === '---' || c === '---') break;
-    rows.push(`| ${a} | ${b} | ${c} |`);
-    i += 3;
+function transformColumns(lines, start) {
+  const clean = t => (t || '').trim().replace(/[：:]\s*$/, '');
+  const isHeader = t => {
+    const s = clean(t);
+    if (!s) return false;
+    if (s === '⸻' || s === '---') return false;
+    if (/^[-#|`]/.test(s)) return false;
+    return s.length <= 32;
+  };
+  const isStop = t => {
+    const s = (t || '').trim();
+    if (!s) return true;
+    if (/^[-#|`]/.test(s)) return true;
+    if (s === '⸻' || s === '---') return true;
+    return false;
+  };
+  for (let cols = 4; cols >= 2; cols--) {
+    const headers = [];
+    for (let k = 0; k < cols; k++) {
+      if (!lines[start + k] || !isHeader(lines[start + k])) { headers.length = 0; break; }
+      headers.push(clean(lines[start + k]));
+    }
+    if (headers.length !== cols) continue;
+    let i = start + cols;
+    while (i < lines.length && !lines[i].trim()) i++;
+    const rows = [];
+    while (i + (cols - 1) < lines.length) {
+      const row = [];
+      for (let k = 0; k < cols; k++) {
+        const v = (lines[i + k] || '').trim();
+        if (isStop(v)) { row.length = 0; break; }
+        row.push(v);
+      }
+      if (row.length !== cols) break;
+      rows.push('| ' + row.join(' | ') + ' |');
+      i += cols;
+      while (i < lines.length && !lines[i].trim()) i++;
+    }
+    if (rows.length >= 2) {
+      const head = '| ' + headers.join(' | ') + ' |';
+      const sep = '| ' + Array(cols).fill('---').join(' | ') + ' |';
+      return { end: i, table: [head, sep, ...rows] };
+    }
   }
-  if (!rows.length) return null;
-  const table = ['| 场景 | React | Vue |', '| --- | --- | --- |', ...rows];
-  return { end: i, table };
+  return null;
 }
 
 function applyTransforms(text) {
@@ -65,7 +93,7 @@ function applyTransforms(text) {
       i++;
       continue;
     }
-    const t = transformTripleColumns(lines, i);
+    const t = transformColumns(lines, i);
     if (t) {
       out.push(...t.table);
       i = t.end;
@@ -90,13 +118,40 @@ function applyTransforms(text) {
   return out.join('\n');
 }
 
+function needsTransform(text) {
+  if (/^\s*⸻\s*$/m.test(text)) return true;
+  if (/^\s*•\s*/m.test(text)) return true;
+  if (/^\s*👉\s*/m.test(text)) return true;
+  const lines = text.split('\n');
+  const triple = (typeof transformColumns === 'function') ? transformColumns : (typeof transformTripleColumns === 'function' ? transformTripleColumns : null);
+  if (triple) {
+    for (let i = 0; i + 1 < lines.length; i++) {
+      if (triple(lines, i)) return true;
+    }
+  }
+  let inFence = false;
+  let streak = 0;
+  for (let i = 0; i < lines.length; i++) {
+    const t = lines[i].trim();
+    if (t.startsWith('```')) { inFence = !inFence; streak = 0; continue; }
+    if (!inFence && isCodeLine(lines[i])) {
+      streak++;
+      if (streak >= 2) return true;
+    } else {
+      streak = 0;
+    }
+  }
+  return false;
+}
+
 async function main() {
   const root = process.argv[2] || '/Users/luzhang/Desktop/js_learn/js1';
   const files = (await walk(root)).filter(isMd);
   for (const f of files) {
     const buf = await fsp.readFile(f, 'utf8');
-    const next = applyTransforms(buf);
-    if (next !== buf) await fsp.writeFile(f, next, 'utf8');
+    const should = needsTransform(buf);
+    const next = should ? applyTransforms(buf) : buf;
+    if (should && next !== buf) await fsp.writeFile(f, next, 'utf8');
   }
 }
 

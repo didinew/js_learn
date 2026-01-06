@@ -17,14 +17,11 @@
 
 ```js
 const arr = [1, 2, 3, 4]
-
 const sum = arr.reduce((accumulator, currentValue) => {
 return accumulator + currentValue
-```
 
 }, 0)
 
-```js
 console.log(sum); // 10
 ```
 
@@ -45,11 +42,8 @@ console.log(sum); // 10
 
 3️⃣ reduce vs map/filter
 
-场景
-用谁
-逐项转换生成新数组
-map
-条件筛选
-filter
-聚合 / 分组 / 扁平化
-reduce
+| 场景 | 用谁 |
+| --- | --- |
+| 逐项转换生成新数组 | map |
+| 条件筛选 | filter |
+| 聚合 / 分组 / 扁平化 | reduce |

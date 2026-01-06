@@ -93,25 +93,21 @@ console.log(3);
 
 ```js
 console.log(1);
-```
 
 setTimeout(() => {
 
-```js
+
 console.log(2);
-```
 
 }, 0)
 
 Promise.resolve().then(() => {
 
-```js
 console.log(3);
-```
 
 })
 
-```js
+
 console.log(4);
 ```
 

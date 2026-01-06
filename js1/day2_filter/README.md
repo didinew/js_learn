@@ -31,15 +31,10 @@ filter 的 3 个关键点（必须记住）1. 返回新数组 2. 不修改原数
 
 2️⃣ map vs filter（面试必对比）
 
-场景
-用谁
-改变数据结构
-map
-条件筛选
-filter
-两者结合
-非常常见
-
-list
-.filter(item => item.done)
+| 场景 | 用谁 |
+| --- | --- |
+| 改变数据结构 | map |
+| 条件筛选 | filter |
+| 两者结合 | 非常常见 |
+| list | .filter(item => item.done) |
 .map(item => item.title)

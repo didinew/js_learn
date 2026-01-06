@@ -15,26 +15,16 @@
 
 1️⃣ for…of vs for…in
 
-循环方式
-遍历对象
-遍历数组/字符串
-是否可用 break
-for…of
-❌ 不行
-✅ 可迭代对象
-✅
-for…in
-✅ 遍历 key
-✅ 遍历索引
-✅
-
+| 循环方式 | 遍历对象 | 遍历数组/字符串 | 是否可用 break |
+| --- | --- | --- | --- |
+| for…of | ❌ 不行 | ✅ 可迭代对象 | ✅ |
+| for…in | ✅ 遍历 key | ✅ 遍历索引 | ✅ |
 ```js
 const arr = ["a", "b", "c"];
-```
 
 for (const val of arr) console.log(val) // a b c
 for (const key in arr) console.log(key) // 0 1 2
-
+```
 记住：数组优先用 for…of，对象用 for…in 或 Object.keys()
 
 2️⃣ 对象遍历
@@ -61,11 +51,8 @@ Object.entries(user).forEach(([key, val]) => console.log(key, val))
 ```js
 const obj1 = { a: 1, b: { c: 2 } };
 const copy = { ...obj1 };
-```
 
 copy.b.c = 99
-
-```js
 console.log(obj1.b.c); // 99 ✅ 被修改
 ```
 
@@ -73,11 +60,9 @@ console.log(obj1.b.c); // 99 ✅ 被修改
 
 ```js
 const obj2 = JSON.parse(JSON.stringify(obj1));
-```
 
 obj2.b.c = 100
 
-```js
 console.log(obj1.b.c); // 99 ✅ 原对象不受影响
 ```
 
