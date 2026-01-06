@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul id="list">
+      <li>
+          item1
+      </li>
+      <li>
+          item2
+      </li>
+      <li>
+          item3
+      </li>
+    </ul>
+    <div id="div" style="width: 200px;height: 300px;background-color: pink;">
+
+    </div>
+  <script>
+    // 
+    const ul = document.querySelector('ul')
+    const li = document.querySelectorAll('li')
+    console.log(li)
+    li.forEach(item => {
+      console.log(item.innerText)
+      console.log(item.parentElement)
+      console.log(item.nextElementSibling)
+    })
+
+    const newLi = document.createElement('li')
+    newLi.textContent = 'TS'
+    // 插在第一个
+    ul.append(newLi)
+
+    // ul.remove(li[li.length-1])
+    li[li.length-1].textContent = 'JS'
+    // createFragement
+    let newFragement = document.createDocumentFragment()
+    for(let i=0; i<100; i++) {
+      const newLIi = document.createElement('li')
+      newLIi.textContent = i
+      newFragement.append(newLIi)
+    }
+    ul.append(newFragement)
+  </script>
+</body>
+
+</html>
