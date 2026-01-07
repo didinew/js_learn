@@ -8,72 +8,16 @@
 </head>
 
 <body>
-    <script>
-        const arr = [1, 2, 3, 4, 5]
-        // map 返回新的数组 适合于数据转换
-        const newArr = arr.map(item => item * 2)
-        console.log(newArr)
-        // forEach 为了遍历并执行副作用的数组方法，不会收集回调函数的返回值，始终返回undefined
-        const newArr2 = arr.forEach(item => item * 2)
-        console.log(newArr2)
+   <script>
+        function Test() {}
+Test.prototype.x = 1
 
-        // ✍️ 今日实战任务（最重要）
+const t = new Test()
+t.x = 2
 
-        // ✅ 任务 1：数据映射
-        // 👉 要求：
-        // •	用 map
-        // •	不允许用 for / forEach
-        const users = [
-            { id: 1, name: 'Tom', age: 18 },
-            { id: 2, name: 'Jerry', age: 20 }
-        ]
-
-        // 目标：生成 ['Tom', 'Jerry']
-
-        const new1 = users.map(item => item.name)
-        console.log(new1)
-        // ✅ 任务 2：模拟业务转换
-        // 👉 要求：
-        // 	•	用 map
-        // 	•	不修改原数组
-        const list = [
-            { title: 'JS', done: true },
-            { title: 'Vue', done: false }
-        ]
-
-        // 目标：
-        // [
-        //   { title: 'JS', status: '已完成' },
-        //   { title: 'Vue', status: '未完成' }
-        // ]
-
-        const new2 = list.map(item => {
-            return {
-                title: item.title,
-                status: item.done ? '已完成' : '未完成'
-            }
-        })
-
-
-        
-        console.log(new2)
-    
-        // ✅ 任务 3：并发 + 等全部完成
-        // 👉 要求：
-        // 	•	用 Promise.all
-        // 	•	不允许用 for / forEach
-        // 	•	不允许用 async/await 顺序执行
-        // 目标：等所有请求都完成后，打印所有数据
-        const urls = [
-            'https://jsonplaceholder.typicode.com/todos/1',
-            'https://jsonplaceholder.typicode.com/todos/2',
-            'https://jsonplaceholder.typicode.com/todos/3'
-        ]
-
-        // 目标：等所有请求都完成后，打印所有数据
-        Promise.all(urls.map(url => fetch(url).then(res => res.json())))
-            .then(data => console.log(data))
-    </script>
+console.log(t.x) // ? 2
+console.log(Test.prototype.x) // ? 1
+   </script>
 </body>
 
 </html>
