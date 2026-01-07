@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      .box {
+        width: 100px;
+        height: 100px;
+        background-color: pink;
+        margin: 10px;
+      }
+    </style>
+</head>
+
+<body>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+  <script>
+    // const boxs = document.querySelectorAll('.box')
+
+    // let i= 10
+    // function move() {
+    //   i += 10
+    //   boxs.forEach(item => {
+    //     item.style.transform = `translateX(${i}px)` 
+    //   })
+    //   if (i < 500) {
+    //     requestAnimationFrame(move)
+    //   }
+    // }
+
+    // move()
+
+    function animateBoxes(elements, distance, step=10) {
+  let i = 0
+  function move() {
+    i += step
+    const translate = `translateX(${i}px)`
+    elements.forEach(el => el.style.transform = translate)
+    if (i < distance) requestAnimationFrame(move)
+  }
+  move()
+}
+
+animateBoxes(document.querySelectorAll('.box'), 500)
+
+  </script>
+</body>
+
+</html>
