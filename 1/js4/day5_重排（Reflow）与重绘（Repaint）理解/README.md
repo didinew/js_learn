@@ -43,27 +43,30 @@ for (let i = 0; i < 1000; i++) {
 }
 - 1000 次重排 → 页面卡顿
 ---
-| ✅ 高性能优化方案 | 1.	批量操作 → DocumentFragment |
-| --- | --- |
-| const fragment = document.createDocumentFragment() | for (let i = 0; i < 1000; i++) { |
-| const li = document.createElement('li') | li.textContent = `Item ${i}` |
-| fragment.appendChild(li) | } |
-ul.appendChild(fragment) // 一次性操作 → 只触发一次重排
+| ✅ 高性能优化方案 | 
 
+1.	批量操作 → DocumentFragment 
+```js
+ const fragment = document.createDocumentFragment() | for (let i = 0; i < 1000; i++) { 
+ const li = document.createElement('li') | li.textContent = `Item ${i}` 
+ fragment.appendChild(li)  } 
+ul.appendChild(fragment) // 一次性操作 → 只触发一次重排
+```
 	2.	使用 class 批量修改样式
 ```js
 const boxes = document.querySelectorAll('.box')
-```
-boxes.forEach(b => b.classList.add('active')) // CSS 控制样式，避免多次 style 修改
 
+boxes.forEach(b => b.classList.add('active')) // CSS 控制样式，避免多次 style 修改
+```
 	3.	缓存尺寸 / 属性，减少 layout thrashing
 
 ```js
 	const width = div.offsetWidth
-```
+
 for (let i = 0; i < 100; i++) {
   div.style.width = width + i + 'px'
 }
+```
 ---
 ## 优化动画
 
@@ -75,11 +78,12 @@ setInterval(() => {
 // ✅ requestAnimationFrame + transform
 ```js
 function animate() {
-```
+
   box.style.transform = `translateX(${box.offsetLeft + 1}px)`
   requestAnimationFrame(animate)
 }
 requestAnimationFrame(animate)
+```
 - transform / opacity → GPU 加速 → 不触发重排
 - requestAnimationFrame → 浏览器按帧刷新，性能更高
 	

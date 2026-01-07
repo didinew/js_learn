@@ -25,12 +25,13 @@ setInterval(() => {
 
 ```js
 function animate() {
-```
+
   box.style.left = box.offsetLeft + 1 + 'px'
   requestAnimationFrame(animate)
 }
 
 requestAnimationFrame(animate)
+```
 ---
 ## 优化动画的核心技巧
 
@@ -55,17 +56,17 @@ const box = document.getElementById('box')
 let x = 0
 
 function animate() {
-```
+
   x += 2
   box.style.transform = `translateX(${x}px)`
-```js
+
   if (x < 500) {
-```
+
     requestAnimationFrame(animate)
   }
 }
 
 requestAnimationFrame(animate)
-
+```
 ✅ 高性能、平滑、GPU 加速
 ✅ 自动暂停后台标签页，不会卡顿

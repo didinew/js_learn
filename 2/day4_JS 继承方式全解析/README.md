@@ -29,6 +29,8 @@ c.sayHi() // Hi, Parent
 | --- | --- | --- |
 | } | function Child(name) { | Parent.call(this, name) |
 | } | const c1 = new Child('DiDi') | console.log(c1.name) // DiDi |
+
+
 特点
 - 优点：
 - 可以传参

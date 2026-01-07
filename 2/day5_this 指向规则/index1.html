@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+   <script>
+//       class A {
+//   constructor() {
+//     this.name = 'A'
+//   }
+//   foo() {
+//     console.log(this.name)
+//   }
+// }
+// const a = new A()
+// const f = a.foo
+// f()
+
+// const obj = {
+//   name: 'obj',
+//   foo: () => {
+//     console.log(this.name)
+    
+//   }
+// }
+
+// obj.foo() 
+
+const obj2 = {
+  name: 'obj2',
+  foo: function () {
+    console.log(this.name)
+    return this
+  },
+  fn() {
+    console.log(this)
+  }
+}
+
+obj2.foo()
+obj2.fn()
+const fo = obj2.foo
+fo() // window
+
+// function b() {
+//    console.log(this)
+// }
+// b() // window
+
+// function A(name) {
+//    console.log(this)
+// }
+
+// const a = new A('111') // a
+// const aa = A.bind('aaaa')
+// aa() // {name: 'aaaa'}
+
+// function Foo() {
+//   this.name = 'foo'
+// }
+// const objww = {}
+// const Bar = Foo.bind(objww)
+// console.log(new Bar()) // {name: 'foo'}
+
+// const jiantou = () => {
+//    console.log(this)
+// }
+
+// jiantou()
+
+// function A() {
+//    this.name = 'A'
+// }
+
+// A.prototype.foo = () => {
+//   console.log(this.name)
+// }
+
+// const a = new A()
+// const foo = a.foo
+// foo() // window.name
+// // 为什么这么返回
+// // 因为箭头函数没有this，所以返回的是window.name
+
+
+// var name = '22'
+
+// function G() {
+//   this.name = 'G'
+// }
+
+// G.prototype.getName = function () {
+//   console.log(this.name)
+//   return () => {
+//     console.log(this.name)
+//   }
+// }
+
+// const g = new G()
+// // g.getName() // G
+// const fn = g.getName
+// // fn()
+// const inner = fn()
+// inner()
+   </script>
+</body>
+
+</html>
