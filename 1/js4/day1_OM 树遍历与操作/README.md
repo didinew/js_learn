@@ -26,11 +26,12 @@ const items = document.querySelectorAll('li') // NodeList
 ```
 ---
 ## 遍历 DOM
+```js
 // NodeList 可以 forEach
 items.forEach(item => console.log(item.textContent))
 
 // children / parentNode / siblings
-```js
+
 const ul = document.querySelector('ul')
 console.log(ul.children)         // HTMLCollection
 console.log(ul.parentNode)       // div#app
@@ -43,7 +44,7 @@ console.log(ul.lastElementChild)  // 最后一个 li
 // 创建元素
 ```js
 const li = document.createElement('li')
-```
+
 li.textContent = 'TS'
 
 // 插入
@@ -57,7 +58,7 @@ ul.removeChild(ul.lastElementChild)
 ul.firstElementChild.textContent = 'JavaScript'
 
 // 读取文本
-```js
+
 console.log(ul.children[0].textContent)
 ```
 ---
@@ -65,13 +66,13 @@ console.log(ul.children[0].textContent)
 
 ```js
 const fragment = document.createDocumentFragment()
-```
+
 for (let i = 0; i < 1000; i++) {
-```js
+
   const li = document.createElement('li')
-```
+
   li.textContent = `Item ${i}`
   fragment.appendChild(li)
 }
 ul.appendChild(fragment) // 一次性操作，避免 1000 次重排
-
+```
