@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+       body {
+  margin: 0;
+  height: 200vh;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  height: 50px;
+  width: 100%;
+  background: #333;
+  color: #fff;
+  display: none;
+}
+
+.list {
+  margin-top: 60px;
+}
+
+.item {
+  height: 120px;
+  border-bottom: 1px solid #eee;
+}
+
+.tooltip {
+  position: fixed;
+  display: none;
+  background: #000;
+  color: #fff;
+  padding: 6px;
+}
+    </style>
+</head>
+
+<body>
+  <!-- 吸顶导航 -->
+  <div id="sticky" class="sticky">吸顶导航</div>
+
+  <!-- 商品列表 -->
+  <div id="list" class="list"></div>
+
+  <!-- hover 浮层 -->
+  <div id="tooltip" class="tooltip"></div>
+</body>
+<script>
+// 	•	商品列表是异步分页加载（滚动到底部继续加载）
+// 	•	每个商品卡片都有：
+// 	•	mousemove 显示浮层
+// 	•	click 进入详情
+// 	•	页面还需要：
+// 	•	滚动时显示 / 隐藏吸顶导航
+// 	•	实时上报用户滚动位置（埋点）
+
+const sticky = document.getElementById('sticky')
+const list = document.getElementById('list')
+const tooltip = document.getElementById('tooltip')
+
+let page = 1
+let loading = false
+
+
+// 加载更多
+function loadMore() {
+    if (loading) return
+    loading = true
+    page++
+    // 模拟异步加载
+    setTimeout(() => {
+        const fragement = document.createDocumentFragment()
+        for (let i = 0; i < 10; i++) {
+            const item = document.createElement('div')
+            item.className = 'item'
+            item.textContent = `商品${page * 10 + i}`
+            fragement.appendChild(item)
+        }
+        list.appendChild(fragement)
+        loading = false
+    }, 500)
+}
+
+
+loadMore()
+
+
+list.addEventListener('click', (e) => {
+  const item = e.target.closest('.item')
+  if (!item) return
+
+  // 商品详情
+  const id = item.dataset.id
+  console.log('进入商品详情:', id)
+})
+
+
+
+function handleScroll() {
+    const { scrollTop, clientHeight, scrollHeight } = document.documentElement
+    // 吸顶
+  sticky.style.display = scrollTop > 200 ? 'block' : 'none'
+
+  // 触底加载
+  if (window.innerHeight + scrollTop >=
+    document.body.scrollHeight - 50) {
+    loadMore()
+  }
+  // 滚动埋点
+  reportScroll(scrollTop)
+
+}
+
+window.addEventListener('scroll', throttle(handleScroll, 200))
+
+
+function reportScroll(pos) {
+  console.log('上报滚动位置:', pos)
+}
+
+
+const showTooltip = debounce((item, e) => {
+  tooltip.style.display = 'block'
+  tooltip.innerText = item.innerText
+  tooltip.style.left = e.clientX + 10 + 'px'
+  tooltip.style.top = e.clientY + 10 + 'px'
+}, 200)
+
+list.addEventListener(
+  'mousemove',
+  throttleRAF((e) => {
+    const item = e.target.closest('.item')
+    if (!item) {
+      tooltip.style.display = 'none'
+      return
+    }
+    showTooltip(item, e)
+  })
+)
+
+
+function throttleRAF(fn) {
+  let locked = false
+  return function (...args) {
+    if (locked) return
+    locked = true
+    requestAnimationFrame(() => {
+      fn.apply(this, args)
+      locked = false
+    })
+  }
+}
+
+// 防抖
+function debounce(fn, delay) {
+  let timer = null
+  return function (...args) {
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      fn.apply(this, args)
+    }, delay)
+  }
+}
+
+// 滚动节流
+function throttle(fn, delay) {
+  let last = 0
+  return function (...args) {
+    const now = Date.now()
+    if (now - last >= delay) {
+      last = now
+      fn.apply(this, args)
+    }
+  }
+}
+
+
+</script>
+</html>
