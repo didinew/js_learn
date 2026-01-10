@@ -33,18 +33,24 @@ function toHeading(line, idx) {
 
 function transformColumns(lines, start) {
   const clean = t => (t || '').trim().replace(/[：:]\s*$/, '');
+  const wordCount = s => s.trim().split(/\s+/).filter(Boolean).length;
+  const hasSentencePunct = s => /[。.!?？！、，,；;：:]/.test(s);
   const isHeader = t => {
     const s = clean(t);
     if (!s) return false;
     if (s === '⸻' || s === '---') return false;
     if (/^[-#|`]/.test(s)) return false;
-    return s.length <= 32;
+    if (hasSentencePunct(s)) return false;
+    if (s.length > 24) return false;
+    if (wordCount(s) > 3) return false;
+    return true;
   };
   const isStop = t => {
     const s = (t || '').trim();
     if (!s) return true;
     if (/^[-#|`]/.test(s)) return true;
     if (s === '⸻' || s === '---') return true;
+    if (hasSentencePunct(s)) return true;
     return false;
   };
   for (let cols = 4; cols >= 2; cols--) {
@@ -57,19 +63,26 @@ function transformColumns(lines, start) {
     let i = start + cols;
     while (i < lines.length && !lines[i].trim()) i++;
     const rows = [];
-    while (i + (cols - 1) < lines.length) {
+    let scanned = 0;
+    let valid = 0;
+    const maxRows = 20;
+    while (i + (cols - 1) < lines.length && rows.length < maxRows) {
       const row = [];
+      let ok = true;
       for (let k = 0; k < cols; k++) {
         const v = (lines[i + k] || '').trim();
-        if (isStop(v)) { row.length = 0; break; }
+        if (isStop(v)) { ok = false; break; }
+        if (v.length > 36 || wordCount(v) > 6) { ok = false; break; }
         row.push(v);
       }
-      if (row.length !== cols) break;
+      if (!ok || row.length !== cols) break;
+      scanned++;
+      valid += 1;
       rows.push('| ' + row.join(' | ') + ' |');
       i += cols;
       while (i < lines.length && !lines[i].trim()) i++;
     }
-    if (rows.length >= 2) {
+    if (rows.length >= 2 && valid / Math.max(scanned, 1) >= 0.7) {
       const head = '| ' + headers.join(' | ') + ' |';
       const sep = '| ' + Array(cols).fill('---').join(' | ') + ' |';
       return { end: i, table: [head, sep, ...rows] };
