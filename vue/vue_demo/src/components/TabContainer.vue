@@ -17,7 +17,7 @@
     <Suspense>
         <template #default>
             <KeepAlive :include="cachedTabs">
-                <component :is="currentComponent" />
+                <component :is="currentComponent" :key="activeTab" />
             </KeepAlive>
         </template>
        <template #fallback>
@@ -32,7 +32,7 @@
 	// •	KeepAlive 缓存
 	// •	异步组件懒加载
 	// •	Slot 自定义 Tab 按钮
-import { computed, ref, watch, nextTick } from 'vue'
+import { computed, ref, watch, nextTick, defineAsyncComponent } from 'vue'
 interface propsTabs {
     name: string
     label: string
@@ -46,11 +46,11 @@ const props = defineProps<{
     defaultTab: string
 }>()
 
-const scrollMap = new Map()
+const scrollMap = new Map<string, number>()
 
 const activeTab = ref(props.defaultTab || props.tabs[0] && props.tabs[0].name)
 
-const visitedTabs = ref(new Set())
+const visitedTabs = ref(new Set<string>())
 
 watch(() => activeTab.value, (newTab, oldTab) => {
     visitedTabs.value.add(newTab)
@@ -84,11 +84,10 @@ const cachedTabs = computed(() => {
 
 // 当前组件
 const currentComponent = computed(() => {
-    const tab =  props.tabs.find(tab => tab.name === activeTab.value)
+    const tab = props.tabs.find(t => t.name === activeTab.value)
     if (!tab) return
-     // 首次访问才加载异步组件
     if (!visitedTabs.value.has(tab.name)) return null
-    return tab.component
+    return tab.component as any
 })
 
 

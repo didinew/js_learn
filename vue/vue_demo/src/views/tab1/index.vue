@@ -2,24 +2,41 @@
 <template>
   <div style="height: 1000px;">
     <h2>Tab1 页面</h2>
-    <form @submit.prevent="submitForm">
-      <input v-model="form.name" placeholder="输入名字" />
-      <input v-model="form.age" type="number" placeholder="输入年龄" />
-      <button type="submit">提交</button>
-    </form>
-    <p>当前状态：{{ form }}</p>
+    <Search
+        :keyword="keyword"
+        @update:result="onResult"
+        @update:loading="onLoading"/>
+    <div v-if="loading">搜索中...</div>
+  <ul>
+    <Item v-for="item in result" :key="item.id" :item="item" v-memo="['item.id']"/>
+  </ul>
   </div>
 </template>
 
-<script setup>
-import { reactive } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
+import Search from '@/components/Search.vue'
+import Item from '@/views/tab1/item.vue'
 
-const form = reactive({
-  name: '',
-  age: ''
-})
+const keyword = ref('')
+const result = ref<{id: number, name: string}[]>([])
+const loading = ref(false)
 
-const submitForm = () => {
-  alert(JSON.stringify(form))
+const onResult = (val: {id: number, name: string}[]) => {
+    result.value = val
 }
+const onLoading = (val: boolean) => {
+    loading.value = val
+}
+
 </script>
+
+<style scoped>
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    li {
+        padding: 5px;
+    }
+</style>
