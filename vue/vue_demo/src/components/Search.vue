@@ -1,8 +1,8 @@
 <template>
-    <div>
-        <input type="text" v-model="internalKeyword" placeholder="搜索">
-        <div v-if="loading"> loading。。。。。。</div>
-    </div>
+  <div class="search-input">
+    <input type="text" v-model="internalKeyword" placeholder="请输入关键字" />
+    <span v-if="loading">搜索中...</span>
+  </div>
 </template>
 <script lang="ts" setup>
 import {onBeforeUnmount, ref, watch} from 'vue'
@@ -26,11 +26,20 @@ let controller: any = null
 let lastKey = ''
 let requestId = 0
 let lastRequestId = 0
+// 加上缓存
+let cache = new Map()
 
 // 搜索函数
 const search = async (val: string) => {
     // val 不是有效值
     if (!val || val === lastKey) return
+    // 检查缓存
+    if (cache.has(val)) {
+        result.value = cache.get(val)
+        emit('update:result', cache.get(val))
+        return
+    }
+    
     // 每次只请求一个
     const currentId = ++requestId
     lastRequestId = currentId
@@ -77,6 +86,7 @@ const search = async (val: string) => {
         if (currentId === lastRequestId) {
             result.value = data
             lastKey = val
+            cache.set(val, data)
             emit('update:result', data)
         }
     }catch (err: any) {
@@ -111,3 +121,8 @@ onBeforeUnmount(() => {
     controller?.abort()
 })
 </script>
+
+<style scoped>
+.search-input{position:relative;margin-bottom:10px;}
+span{position:absolute;right:8px;top:50%;transform:translateY(-50%);color:#999;}
+</style>

@@ -8,15 +8,19 @@
         @update:loading="onLoading"/>
     <div v-if="loading">搜索中...</div>
   <ul>
-    <Item v-for="item in result" :key="item.id" :item="item" v-memo="['item.id']"/>
+    <VirtualList
+        :data="result"
+        :loadMore="loadMore"
+        v-model:selected-map="selectedMap"
+    />
   </ul>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, reactive   } from 'vue'
 import Search from '@/components/Search.vue'
-import Item from '@/views/tab1/item.vue'
+import VirtualList from '@/components/VirtualList.vue'
 
 const keyword = ref('')
 const result = ref<{id: number, name: string}[]>([])
@@ -27,6 +31,26 @@ const onResult = (val: {id: number, name: string}[]) => {
 }
 const onLoading = (val: boolean) => {
     loading.value = val
+}
+
+const selectedMap = reactive({}) // 每条 item 选中状态
+const loadingMore = ref(false)
+let page = 1
+let pageSize = 1000
+const loadMore = async () => {
+    if(loadingMore.value) return
+  loadingMore.value = true
+  page++
+  const newData = Array.from({length:10000},(_,i)=>({
+    id:i+1,
+    name:`Item ${i+1}`
+  }))
+    .filter(item=>item.name.toLowerCase().includes(keyword.value.toLowerCase()))
+    .slice((page-1)*pageSize,page*pageSize)
+  await new Promise(r=>setTimeout(r,200))
+
+  result.value = [...result.value,...newData]
+  loadingMore.value = false
 }
 
 </script>
