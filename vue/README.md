@@ -186,7 +186,7 @@ Day 19：工程结构设计
 ⸻
 
 Day 20：错误处理与稳定性
-	•	errorCaptured
+	•	errorCaptured 全局错误捕获
 	•	全局错误
 	•	白屏兜底
 

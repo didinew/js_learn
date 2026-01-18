@@ -21,6 +21,7 @@
             </KeepAlive>
         </template>
        <template #fallback>
+        <!-- 也可以加骨架屏 -->
         <slot name="loading">
             <div class="loading">加载中...</div>
         </slot>
