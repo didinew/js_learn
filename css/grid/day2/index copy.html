@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            display: grid;
+            /* 分成三等份 */
+            /* grid-template-columns: 1fr 1fr 1fr; */
+            /* grid-template-columns: repeat(3, 1fr); */
+            /* 分为两等份 一个宽度 200 另一个沾满剩余的 fr*/
+            /*  自动填充 最小宽度200 */
+            /* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); */
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: 80px 80px;
+            gap: 16px;
+        }
+        
+        .item {
+            background-color: #ccc;
+            padding: 16px;
+        }
+        .a {
+            grid-column: 1/3;
+        }
+        .b {
+            grid-row: 1/3;
+        }
+
+        .item {
+            grid-area: 1 / 1 / 3 / 3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+        <div class="item">item3</div>
+        <div class="item">item4</div>
+    </div>
+</body>
+</html>

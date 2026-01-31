@@ -38,22 +38,27 @@ console.log(userDiv.getAttribute('data-role')); // "admin"
 ⸻
 
 答案：CSS 定位（position）区别
+
 	1.	static（默认值）
 	•	元素按正常文档流排列，不受 top/right/bottom/left 影响。
 	•	参照物：无，直接在文档流中。
+
 	2.	relative（相对定位）
 	•	元素仍占据文档流原来的位置，但可以通过 top/right/bottom/left 相对于自身原位置偏移。
 	•	参照物：自身原来的位置。
 	•	应用：微调位置，或者作为绝对定位的父元素（定位上下文）。
+
 	3.	absolute（绝对定位）
 	•	元素脱离文档流，不占原来的空间。
 	•	可以通过 top/right/bottom/left 精确定位。
 	•	参照物：最近的 非 static 定位祖先元素（relative、absolute、fixed、sticky 都算）。
 	•	应用：弹窗、工具提示、徽章等。
+
 	4.	fixed（固定定位）
 	•	元素脱离文档流，不占空间。
 	•	相对于 浏览器可视窗口（viewport） 定位，不随滚动条滚动改变位置。
 	•	应用：导航条、回到顶部按钮、固定工具栏。
+	
 	5.	sticky（粘性定位）
 	•	元素在 跨越某个阈值前表现为 relative，超过阈值时表现为 fixed。
 	•	参照物：最近的 滚动祖先（overflow 不为 hidden/auto/scroll）或自身容器。
